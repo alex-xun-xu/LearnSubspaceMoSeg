@@ -1,11 +1,10 @@
 import tensorflow as tf
 import numpy as np
-import TF_Tools
 
 from tensorflow.contrib.layers import fully_connected as mlp
 
 
-def SubspaceNet(H, input_dim, output_dim, Is_Training, hidden_dim=128, depth=30):
+def SubspaceNet(H, input_dim, output_dim, Is_Training, hidden_dim=128, depth=30, DataAugOpt=None):
     '''
     SubspaceNet
     :param H:  Input feature
@@ -16,6 +15,13 @@ def SubspaceNet(H, input_dim, output_dim, Is_Training, hidden_dim=128, depth=30)
     :param depth: depth of network
     :return:
     '''
+    ## Data Augmentation
+    if DataAugOpt is None:
+        DataAugOpt = {}
+        DataAugOpt['type'] = 'Gaussian'
+        DataAugOpt['stddev'] = 0.1
+    # H = DataAugment(H,DataAugOpt)
+
     ## Layer 1
 
     H = ContextNorm(H)
@@ -56,6 +62,19 @@ def SubspaceNet(H, input_dim, output_dim, Is_Training, hidden_dim=128, depth=30)
 
     return H
 
+def DataAugment(X, DataAugOpt):
+    '''
+    Apply Data Augmentation
+    :param X: Input data
+    :param DataAugOpt: Data augmentation options
+    :return:
+    '''
+
+    if DataAugOpt['type'] == 'Gaussian':
+        jitter = tf.random.normal(tf.shape(X)) * DataAugOpt['stddev']
+        return X+jitter
+    else:
+        sys.exit('Unknown type of data augmentation!')
 
 def ContextNorm(H):
     mean, var = tf.nn.moments(H, axes=1, keep_dims=True)

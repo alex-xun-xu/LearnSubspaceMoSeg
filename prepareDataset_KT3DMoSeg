@@ -1,0 +1,5 @@
+# shell script to download KT3DMoSeg dataset
+
+mkdir ./Dataset/KT3DMoSeg
+cd ./Dataset/KT3DMoSeg
+
