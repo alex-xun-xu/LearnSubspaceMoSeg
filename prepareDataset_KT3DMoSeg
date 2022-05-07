@@ -3,3 +3,6 @@
 mkdir ./Dataset/KT3DMoSeg
 cd ./Dataset/KT3DMoSeg
 
+# Download from https://www.dropbox.com/s/h6ub9pt9dk4j3h8/KT3DMoSegClips.zip?dl=0
+
+# unzip all files and put under ./Dataset/KT3DMoSeg
