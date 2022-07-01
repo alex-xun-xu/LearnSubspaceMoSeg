@@ -49,15 +49,13 @@ lossname = 'MaxInterMinIntra'
 split_range = list(range(0,nCV))
 
 ### Prepare Results Saving Path
-base_path = os.path.abspath(os.path.join(str(pathlib.Path(__file__).parent.absolute()),'./Results'))
+base_path = os.path.abspath(os.path.join(str(pathlib.Path(__file__).parent.absolute()), '../Results'))
 Setting['result_base_path'] = os.path.join(base_path, Setting['Dataset'])
 if not os.path.exists(Setting['result_base_path']):
     os.makedirs(Setting['result_base_path'])
 time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")  # get current time
 
-
-# Run cross-validation
-
+### Run cross-validation
 for split in split_range:
 
     print('Split - {:d} starts\n'.format(split))

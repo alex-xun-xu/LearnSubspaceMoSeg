@@ -14,12 +14,35 @@ We currently released tensorflow code for experiments on KT3DMoSeg dataset [2, 3
 This code has been tested on Pyhon3.6, TensorFlow1.14, CUDA 10.0, cuDNN 7.0 and Ubuntu 18.04
 
 ### Dataset
+#### KT3DMoSeg
 You should first download the data for KT3MoSeg from: https://www.dropbox.com/s/h6ub9pt9dk4j3h8/KT3DMoSegClips.zip?dl=0 . Then put the unzipped files under ./Dataset . The ./KT3DMoSeg/Seq contains the original clips and the ./KT3DMoSeg/Data contains all processed trajectories.
+#### FBMS59
+Please download the preprocessed trajectory files from: https://www.dropbox.com/s/x49dscvds1ugtqr/FBMS_Clips.zip?dl=0 . Then unzip the files to ./Dataset/FBMS/Data .
 
 ### Usage
-You can run the cross-validation experiment by running the following script. You only need to specify the GPU you want to use for training and keep all other hyperparameters unchanged.
+You can run the cross-validation experiment for KT3DMoSeg by running the following script. You only need to specify the GPU you want to use for training and keep all other hyperparameters unchanged.
 
-python  CrossValid_KT3DMoSeg.py --GPU #GPU
+```commandline
+cd ./KT3DMoSeg
+GPU=0
+python  CrossValid_KT3DMoSeg.py --GPU $GPU
+```
+
+To reproduce the results for FBMS59 please run the following script.
+
+```commandline
+cd ./FBMS
+GPU=0
+# Train model
+python train_FBMS.py --GPU $GPU --SaveMdl 1
+
+# Test and export segmentation results 
+# Replace XXX with the exact directory containing result, e.g. ../Results/FBMS/SubspaceNet50...
+python test_FBMS_SOD.py --RsltPath XXX
+
+# Evaluate Precision, Recall and Fmeasure
+python Eval_PR_MdlSel_SOD.py
+```
 
 ### Reference
 [1] Xun Xu, Loong-Fah Cheong, Zhuwen Li, Le Zhang and Ce Zhu. "Learning Clustering for Motion Segmentation." IEEE Transactions on Circuits and Systems for Video Technology (2021).

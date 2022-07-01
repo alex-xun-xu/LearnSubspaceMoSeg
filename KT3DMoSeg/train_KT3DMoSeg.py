@@ -5,7 +5,7 @@ import sys
 import argparse as arg
 import time
 
-sys.path.append(os.path.abspath('./Trainer'))
+sys.path.append(os.path.abspath('../Trainer'))
 
 import trainer_KT3DMoSeg as trainer
 

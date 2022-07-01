@@ -85,3 +85,20 @@ def MaxInterMinInner_Add_loss(X, y_cat, alpha=0.5):
     tf.add_to_collection('max_num_cluster',max_num_cluster)
 
     return loss, min_dist_miu_ij, max_var, max_miu_i, max_miu_j
+
+
+def Loss_L2(y_gt,y_predict):
+    # L2 loss
+    #   y_gt - B*N*D
+
+
+    y_shp = tf.shape(y_gt)
+    num_pts = y_shp[1]
+
+    K = tf.matmul(y_gt, tf.transpose(y_gt, perm=[0, 2, 1]))
+
+    loss1 = tf.norm(tf.matmul(y_predict, tf.transpose(y_predict, perm=[0, 2, 1])) - K, axis=[1, 2], ord='fro')
+
+    loss = tf.reduce_mean(loss1)
+
+    return loss
